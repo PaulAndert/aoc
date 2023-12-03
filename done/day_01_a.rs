@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn main() {
-    let contents = fs::read_to_string("./resources/day_01_a").expect("Should have been able to read the file");
+    let contents = fs::read_to_string("./resources/day_01").expect("Should have been able to read the file");
     
     let mut cnt: u64 = 0;
     for line in contents.split("\n") {
