@@ -1,5 +1,12 @@
 use std::fs;
 
+#[derive(Debug, Clone)]
+struct Bag {
+    red: u64,
+    green: u64,
+    blue: u64,
+}
+
 pub fn main() {
     let contents = fs::read_to_string("./resources/day_02").expect("Should have been able to read the file");
 
@@ -12,9 +19,9 @@ pub fn main() {
 
 fn check_possible(line: &str) -> u64 {
     let name_games: Vec<&str> = line.split(": ").collect();
-    let game_id: u64 = name_games[0][5..name_games[0].len()].parse::<u64>().unwrap();
-
     let games: Vec<&str> = name_games[1].split("; ").collect();
+
+    let mut bag: Bag = Bag { red: 0, green: 0, blue: 0 };
 
     for game in games {
         let blocks: Vec<&str> = game.split(", ").collect();
@@ -25,18 +32,18 @@ fn check_possible(line: &str) -> u64 {
 
             match color {
                 "red" => {
-                    if count > 12 {
-                        return 0;
+                    if count > bag.red {
+                        bag.red = count;
                     }
                 },
                 "green" => {
-                    if count > 13 {
-                        return 0;
+                    if count > bag.green {
+                        bag.green = count;
                     }
                 },
                 "blue" => {
-                    if count > 14 {
-                        return 0;
+                    if count > bag.blue {
+                        bag.blue = count;
                     }
                 },
                 _ => {
@@ -45,5 +52,5 @@ fn check_possible(line: &str) -> u64 {
             }
         }
     }
-    return game_id;
+    return bag.red * bag.green * bag.blue;
 }
