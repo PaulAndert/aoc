@@ -1,9 +1,7 @@
-mod day_07_a;
-
 use std::time::Instant;
 
 mod day {
-    include!("day_07_a.rs");
+    include!("day_07_b.rs");
 }
 
 fn main() {
