@@ -5,9 +5,6 @@ pub fn main() {
     let mut lines: Vec<&str> = contents.split("\n").collect();
 
     let mut sum: i64 = 0;
-
-    let mut ccc = 0;
-
     for line in lines {
         // get the differences
         let mut all_numbers: Vec<Vec<i64>> = Vec::new();
@@ -19,23 +16,17 @@ pub fn main() {
             }
             all_numbers.push(new_numbers);
         }
-        // for r in &all_numbers {
-        //     println!("{:?}", r);
-        // }
-        // extrapolate values
+
+        // extrapolate values (still adding to the end, because the position is irrelevant)
         for i in (0..all_numbers.len() - 1).rev() {
             if i == all_numbers.len() {
                 all_numbers[i].push(0);
             }else {
-                let new_value: i64 = all_numbers[i + 1][all_numbers[i + 1].len() - 1] + all_numbers[i][all_numbers[i].len() - 1];
+                let new_value: i64 = all_numbers[i][0] - all_numbers[i + 1][all_numbers[i + 1].len() - 1];
                 all_numbers[i].push(new_value);
             }
         }
-        // println!("{:?}", all_numbers);
         sum += all_numbers[0][all_numbers[0].len() - 1];
-
-        // if ccc == 1 { break; }
-        // else { ccc += 1; }
     }
     println!("Sum: {}", sum);
 }
