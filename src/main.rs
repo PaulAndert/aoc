@@ -1,3 +1,5 @@
+mod day_10_a;
+
 use std::time::Instant;
 
 mod day {
