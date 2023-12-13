@@ -1,13 +1,12 @@
-mod day_10_a;
-
 use std::time::Instant;
 
-mod day {
-    include!("day_05_b.rs");
-}
+mod days;
 
 fn main() {
     let now = Instant::now();
-    day::main();
+
+    // days::day_01_a::main(); // to execute a day
+    days::day_10_a::main();
+
     println!("Elapsed: {:.2?}", now.elapsed());
 }
