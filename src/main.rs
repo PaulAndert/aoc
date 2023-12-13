@@ -7,6 +7,8 @@ fn main() {
 
     // days::day_01_a::main(); // to execute a day
     days::day_10_a::main();
+    // cargo rustc -- -Awarnings && ./target/debug/aoc
+    // to remove warnings
 
     println!("Elapsed: {:.2?}", now.elapsed());
 }
