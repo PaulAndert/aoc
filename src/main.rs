@@ -6,7 +6,7 @@ fn main() {
     let now = Instant::now();
 
     // days::day_01_a::main(); // to execute a day
-    days::day_10_b::main();
+    days::day_11_a::main();
     // cargo rustc -- -Awarnings && ./target/debug/aoc
     // to remove warnings
 
