@@ -9,17 +9,47 @@ pub fn main() {
 
     let mut sum: u64 = 0;
     for line in lines {
+    // let line = lines[5];
         let sep: Vec<&str> = line.split(" ").collect();
         let conditions: Vec<char> = sep[0].chars().collect();
         let numbers: Vec<u64> = sep[1].split(",").map(|a| str_to_u64(a)).collect();
-        sum += permutate(0, conditions, numbers);
+
+        let mut conditions_big: Vec<char> = conditions.clone();
+        let mut numbers_big: Vec<u64> = numbers.clone();
+        // multiply
+        for _i in 0..4 {
+            conditions_big.push('?');
+            for j in 0..conditions.len() {
+                conditions_big.push(conditions[j]);
+            }
+            for j in 0..numbers.len() {
+                numbers_big.push(numbers[j]);
+            }
+        }
+        // println!("C: {:?}", conditions_big.clone());
+        // println!("CL: {:?}", conditions_big.len());
+        // println!("N: {:?}", numbers_big.clone());
+        // println!("NL: {:?}", numbers_big.len());
+
+        let qs_left: usize = conditions_big.iter().map(|c| if *c == '?' { 1 } else { 0 }).sum();
+
+        sum += permutate(0, qs_left, conditions_big, numbers_big, false);
     }
     println!("Sum: {}", sum);
 }
 
-fn permutate(step: usize, mut conditions: Vec<char>, numbers: Vec<u64>) -> u64 {
+fn permutate(step: usize, qs_left: usize, mut conditions: Vec<char>, numbers: Vec<u64>, check: bool) -> u64 {
     let mut a= 0;
-    if step == conditions.len() {
+    // println!("{}: {:?}", step, conditions);
+
+    if check {
+        if !check_grouping(step, conditions.clone(), numbers.clone()) {
+            return 0;
+        }
+    }
+
+
+    if step == conditions.len() || qs_left == 0 {
         let mut local_numbers: Vec<u64> = vec![0];
         for con in conditions {
             let last = local_numbers.len() - 1;
@@ -40,60 +70,47 @@ fn permutate(step: usize, mut conditions: Vec<char>, numbers: Vec<u64>) -> u64 {
         }
     }
 
-    // // get all finished # blocks
-    // let mut local_numbers: Vec<(char, u64)> = Vec::new();
-    // let mut last = 0;
-    // for con in &conditions {
-    //     match con {
-    //         '#' => {
-    //             if local_numbers.len() == 0 {
-    //                 local_numbers.push(('#', 0));
-    //             }
-    //             if local_numbers[last].0 == '#' {
-    //                 local_numbers[last].1 += 1;
-    //             }else {
-    //                 local_numbers.push(('#', 1));
-    //                 last += 1;
-    //             }
-    //         },
-    //         '?' => {
-    //             if local_numbers.len() == 0 {
-    //                 local_numbers.push(('?', 0));
-    //             }
-    //             if local_numbers[last].0 == '?' {
-    //                 local_numbers[last].1 += 1;
-    //             }else {
-    //                 local_numbers.push(('?', 1));
-    //                 last += 1;
-    //             }
-    //         },
-    //         _ => {  },
-    //     }
-    // }
-    // // println!("{:?} ?? {:?}", local_numbers, numbers);
-    // if local_numbers.len() > 0 {
-    //     for i in 0..numbers.len() {
-    //         if i < local_numbers.len() {
-    //             if local_numbers[i].0 == '?' {
-    //                 break;
-    //             }
-    //             if local_numbers[i].1 > numbers[i] {
-    //                 println!("ret: {:?} > {:?} ({:?})", local_numbers, numbers, conditions);
-    //                 return 0;
-    //             }
-    //         }
-    //     }
-    // }
-
     if conditions[step] == '?' {
-        conditions[step] = '.';
-        a += permutate(step + 1, conditions.clone(), numbers.clone());
         conditions[step] = '#';
-        a += permutate(step + 1, conditions, numbers);
+        a += permutate(step + 1, qs_left - 1, conditions.clone(), numbers.clone(), true);
+        conditions[step] = '.';
+        a += permutate(step + 1, qs_left - 1, conditions, numbers, true);
     }else {
-        a += permutate(step + 1, conditions, numbers);
+        a += permutate(step + 1, qs_left, conditions, numbers, true);
     }
     a
+}
+
+fn check_grouping(end: usize, conditions: Vec<char>, numbers: Vec<u64>) -> bool {
+    let mut size: u64 = 0;
+    let mut index: usize = 0;
+
+    for i in 0..end {
+        if conditions[i] == '#' {
+            size += 1;
+        }else {
+            if index >= numbers.len() {
+                for j in i..end {
+                    if conditions[j] == '#' {
+                        // println!("FB: {:?} -> {:?}", conditions, numbers);
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if size > 0 {
+                if numbers[index] != size {
+                    // println!("FC: {:?} -> {:?}", conditions, numbers);
+                    return false;
+                }else {
+                    index += 1;
+                    size = 0;
+                }
+            }
+        }
+    }
+    // println!("T: {:?}", conditions);
+    true
 }
 
 fn str_to_u64(string_number: &str) -> u64 {
