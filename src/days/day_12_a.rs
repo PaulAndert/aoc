@@ -31,10 +31,10 @@ fn permutate(step: usize, mut conditions: Vec<char>, numbers: Vec<u64>) -> u64 {
         if local_numbers[last] == 0 {
             local_numbers.remove(last);
         }
-        return if local_numbers == numbers {
-            1
-        } else {
-            0
+        if local_numbers == numbers {
+            return 1;
+        }else {
+            return 0;
         }
     }
     if conditions[step] == '?' {
