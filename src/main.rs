@@ -1,12 +1,15 @@
 use std::time::Instant;
 
-mod days;
+mod y2023;
+mod y2024;
 
 fn main() {
     let now = Instant::now();
 
     // days::day_01_a::main(); // to execute a day
-    days::day_12_b::main();
+    
+    y2024::day_01_b::main();
+
     // cargo rustc -- -Awarnings && ./target/debug/aoc
     // to remove warnings
 

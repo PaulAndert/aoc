@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::fs;
 
 pub fn main() {
-    let contents = fs::read_to_string("./resources/day_08").expect("Should have been able to read the file");
+    let contents = fs::read_to_string("./src/y2023/resources/day_08").expect("Should have been able to read the file");
     let mut lines: Vec<&str> = contents.split("\n").collect();
 
     let instructions: Vec<char> = lines[0].chars().collect();

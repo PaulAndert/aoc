@@ -2,12 +2,12 @@ use std::fs;
 use std::collections::HashMap;
 
 pub fn main() {
-    let contents = fs::read_to_string("./resources/day_01").expect("Should have been able to read the file");
+    let contents = fs::read_to_string("./src/y2023/resources/day_01").expect("Should have been able to read the file");
 
     let mut cnt: u64 = 0;
     for line in contents.split("\n") {
         let res = get_number(line);
-        println!("{}", res);
+        // println!("{}", res);
         cnt += res;
     }
     println!("C: {}", cnt);

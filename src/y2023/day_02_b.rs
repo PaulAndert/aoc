@@ -8,7 +8,7 @@ struct Bag {
 }
 
 pub fn main() {
-    let contents = fs::read_to_string("./resources/day_02").expect("Should have been able to read the file");
+    let contents = fs::read_to_string("./src/y2023/resources/day_02").expect("Should have been able to read the file");
 
     let mut cnt: u64 = 0;
     for line in contents.split("\n") {

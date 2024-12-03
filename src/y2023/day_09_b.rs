@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn main() {
-    let contents = fs::read_to_string("./resources/day_09").expect("Should have been able to read the file");
+    let contents = fs::read_to_string("./src/y2023/resources/day_09").expect("Should have been able to read the file");
     let mut lines: Vec<&str> = contents.split("\n").collect();
 
     let mut sum: i64 = 0;
@@ -16,12 +16,13 @@ pub fn main() {
             }
             all_numbers.push(new_numbers);
         }
-        // extrapolate values
+
+        // extrapolate values (still adding to the end, because the position is irrelevant)
         for i in (0..all_numbers.len() - 1).rev() {
             if i == all_numbers.len() {
                 all_numbers[i].push(0);
             }else {
-                let new_value: i64 = all_numbers[i + 1][all_numbers[i + 1].len() - 1] + all_numbers[i][all_numbers[i].len() - 1];
+                let new_value: i64 = all_numbers[i][0] - all_numbers[i + 1][all_numbers[i + 1].len() - 1];
                 all_numbers[i].push(new_value);
             }
         }
