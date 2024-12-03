@@ -8,7 +8,7 @@ fn main() {
 
     // days::day_01_a::main(); // to execute a day
     
-    y2024::day_02_b::main();
+    y2024::day_03_a::main();
 
     // cargo rustc -- -Awarnings && ./target/debug/aoc
     // to remove warnings
