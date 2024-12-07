@@ -15,3 +15,5 @@ pub mod day_05_b;
 
 pub mod day_06_a;
 pub mod day_06_b;
+
+pub mod day_07_a;
