@@ -2,7 +2,7 @@ use std::fs;
 
 pub fn main() {
     let contents = fs::read_to_string("./src/y2024/resources/day_08").expect("Should have been able to read the file");
-    let mut cnt: u64 = 0;
+    let mut cnt: u32 = 0;
 
     let mut antennas: Vec<char> = Vec::new();
     let mut matrix: Vec<Vec<char>> = Vec::new();
@@ -32,44 +32,37 @@ pub fn main() {
 
         // get all antenna_positions permutations
         for perm in get_all_permutations(antenna_positions.len()) {
-            // println!("{} - {:?}", antenna, perm);
-            // println!("{:?}, {:?}", antenna_positions[perm.0], antenna_positions[perm.1]);
             let move_y: i32 = antenna_positions[perm.1].0 as i32 - antenna_positions[perm.0].0 as i32;
             let move_x: i32 = antenna_positions[perm.1].1 as i32 - antenna_positions[perm.0].1 as i32;
-            // println!("{} , {}", move_y, move_x);
 
-            let first_new_y: i32 = antenna_positions[perm.1].0 as i32 + move_y;
-            let first_new_x: i32 = antenna_positions[perm.1].1 as i32 + move_x;
-            if first_new_y >= 0 && first_new_y < antinode_matrix.len() as i32 && first_new_x >= 0 && first_new_x < antinode_matrix[first_new_y as usize].len() as i32 {
-                antinode_matrix[first_new_y as usize][first_new_x as usize] = '#';
+            let mut times: i32 = 1;
+            loop {
+                let first_new_y: i32 = antenna_positions[perm.1].0 as i32 + move_y * times;
+                let first_new_x: i32 = antenna_positions[perm.1].1 as i32 + move_x * times;
+                if first_new_y >= 0 && first_new_y < antinode_matrix.len() as i32 && first_new_x >= 0 && first_new_x < antinode_matrix[first_new_y as usize].len() as i32 {
+                    antinode_matrix[first_new_y as usize][first_new_x as usize] = '#';
+                    times += 1;
+                }else {
+                    break;
+                }
             }
+            times = 1;
 
-            let second_new_y: i32 = antenna_positions[perm.0].0 as i32 - move_y;
-            let second_new_x: i32 = antenna_positions[perm.0].1 as i32 - move_x;
-            if second_new_y >= 0 && second_new_y < antinode_matrix.len() as i32 && second_new_x >= 0 && second_new_x < antinode_matrix[second_new_y as usize].len() as i32 {
-                antinode_matrix[second_new_y as usize][second_new_x as usize] = '#';
+            loop {
+                let second_new_y: i32 = antenna_positions[perm.0].0 as i32 - move_y * times;
+                let second_new_x: i32 = antenna_positions[perm.0].1 as i32 - move_x * times;
+                if second_new_y >= 0 && second_new_y < antinode_matrix.len() as i32 && second_new_x >= 0 && second_new_x < antinode_matrix[second_new_y as usize].len() as i32 {
+                    antinode_matrix[second_new_y as usize][second_new_x as usize] = '#';
+                    times += 1;
+                }else {
+                    break;
+                }
             }
-
-            // for line in antinode_matrix.clone() {
-            //     // println!("{:?}", line);
-            //     for c in line {
-            //         print!("{} ", c);
-            //     }
-            //     println!("");
-            // }
         }
     }
 
-
     for line in antinode_matrix.clone() {
-        // println!("{:?}", line);
-        for c in line {
-            // print!("{} ", c);
-            if c == '#' {
-                cnt += 1;
-            }
-        }
-        // println!("");
+        cnt += line.iter().filter(|&&l| l != '.').count() as u32;
     }
 
     println!("C: {}", cnt);
