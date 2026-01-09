@@ -3,5 +3,5 @@ This repository contains my solutions to [Advent of Code](https://adventofcode.c
 
 ## Structure
 src/  
-├─ 2023/ # Some solutions for Advent of Code 2023  
-└─ 2024/ # Some solutions for Advent of Code 2024
+├─ y2023/ # Some solutions for Advent of Code 2023  
+└─ y2024/ # Some solutions for Advent of Code 2024
